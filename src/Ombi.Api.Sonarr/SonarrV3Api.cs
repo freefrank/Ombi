@@ -21,5 +21,13 @@ namespace Ombi.Api.Sonarr
 
             return await Api.Request<List<LanguageProfiles>>(request);
         }
+        
+        public async Task<IEnumerable<ReleaseProfiles>> ReleaseProfiles(string apiKey, string baseUrl)
+        {
+            var request = new Request($"{ApiBaseUrl}languageprofile", baseUrl, HttpMethod.Get);
+            request.AddHeader("X-Api-Key", apiKey);
+
+            return await Api.Request<List<ReleaseProfiles>>(request);
+        }
     }
 }

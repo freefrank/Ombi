@@ -101,6 +101,18 @@ namespace Ombi.Controllers.V1.External
             return null;
         }
 
+        [HttpGet("v3/ReleaseProfiles")]
+        [PowerUser]
+        public async Task<IEnumerable<ReleaseProfiles>> GetReleaseProfiles()
+        {
+            var settings = await SonarrSettings.GetSettingsAsync();
+            if (settings.Enabled)
+            {
+                return await SonarrV3Api.ReleaseProfiles(settings.ApiKey, settings.FullUri);
+            }
+
+            return null;
+        }
         /// <summary>
         /// Gets the Sonarr tags
         /// </summary>
@@ -141,6 +153,13 @@ namespace Ombi.Controllers.V1.External
         public async Task<IEnumerable<LanguageProfiles>> GetLanguageProfiles([FromBody] SonarrSettings settings)
         {
             return await SonarrV3Api.LanguageProfiles(settings.ApiKey, settings.FullUri);
+        }
+
+        [HttpPost("v3/ReleaseProfiles")]
+        [PowerUser]
+        public async Task<IEnumerable<ReleaseProfiles>> GetReleaseProfiles([FromBody] SonarrSettings settings)
+        {
+            return await SonarrV3Api.ReleaseProfiles(settings.ApiKey, settings.FullUri);
         }
 
         [HttpGet("enabled")]

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { ILanguageProfiles, ISonarrProfile, ISonarrRootFolder } from "../../interfaces";
+import { IReleaseProfiles, ISonarrProfile, ISonarrRootFolder } from "../../interfaces";
 
 import { ISonarrSettings } from "../../interfaces";
 import { SonarrService } from "../../services";
@@ -20,12 +21,15 @@ export class SonarrComponent implements OnInit {
     public rootFolders: ISonarrRootFolder[];
     public rootFoldersAnime: ISonarrRootFolder[];
     public languageProfiles: ILanguageProfiles[];
+    public releaseProfiles: IReleaseProfiles[];
     public selectedRootFolder: ISonarrRootFolder;
     public selectedQuality: ISonarrProfile;
     public selectedLanguageProfiles: ILanguageProfiles;
+    public selectedReleaseProfiles: IReleaseProfiles;
     public profilesRunning: boolean;
     public rootFoldersRunning: boolean;
     public langRunning: boolean;
+    public relRunning: boolean;
     public form: FormGroup;
     public advanced = false;
     formErrors: any;
@@ -144,6 +148,17 @@ export class SonarrComponent implements OnInit {
             });
     }
 
+      public getReleaseProfiles(form: FormGroup) {
+        this.relRunning = true;
+        this.sonarrService.getV3LanguageProfiles(form.value)
+            .subscribe(x => {
+                this.releaseProfiles = x;
+                this.releaseProfiles.unshift({ name: "Please Select", id: -1 });
+
+                this.relRunning = false;
+                this.notificationService.success("Successfully retrieved the Release Profiles");
+            });
+    }
     public test(form: FormGroup) {
         if (form.invalid) {
             this.notificationService.error("Please check your entered values");

@@ -9,5 +9,6 @@ namespace Ombi.Api.Sonarr
     public interface ISonarrV3Api : ISonarrApi
     {
         Task<IEnumerable<LanguageProfiles>> LanguageProfiles(string apiKey, string baseUrl);
+        Task<IEnumerable<ReleaseProfiles>> ReleaseProfiles(string apiKey, string baseUrl);
     }
 }
